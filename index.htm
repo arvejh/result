@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سیستم جزا و پاداش ECTS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 0;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section, .report-section {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>سیستم جزا و پاداش برای همکاری در ECTS</h1>
+  </header>
+
+  <div class="container">
+    <div class="form-section">
+      <h2>ثبت داده‌های عملکرد واحد</h2>
+      <form id="performance-form">
+        <label for="unit">نام واحد:</label>
+        <input type="text" id="unit" name="unit" required>
+
+        <label for="response-time">درصد پاسخ‌دهی در مهلت:</label>
+        <input type="number" id="response-time" name="response-time" min="0" max="100" required>
+
+        <label for="quality">کیفیت پاسخ (درصد بدون نیاز به بازنگری):</label>
+        <input type="number" id="quality" name="quality" min="0" max="100" required>
+
+        <label for="accuracy">دقت در ارجاع (درصد):</label>
+        <input type="number" id="accuracy" name="accuracy" min="0" max="100" required>
+
+        <label for="participation">مشارکت در سیستم (درصد ثبت درست مکاتبات):</label>
+        <input type="number" id="participation" name="participation" min="0" max="100" required>
+
+        <button type="submit">ثبت</button>
+      </form>
+    </div>
+
+    <div class="report-section">
+      <h2>گزارش عملکرد واحدها</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>نام واحد</th>
+            <th>پاسخ‌دهی در مهلت</th>
+            <th>کیفیت پاسخ</th>
+            <th>دقت ارجاع</th>
+            <th>مشارکت</th>
+            <th>امتیاز کل</th>
+          </tr>
+        </thead>
+        <tbody id="performance-report">
+          <!-- گزارش‌ها اینجا نمایش داده می‌شود -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('performance-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const unit = document.getElementById('unit').value;
+      const responseTime = document.getElementById('response-time').value;
+      const quality = document.getElementById('quality').value;
+      const accuracy = document.getElementById('accuracy').value;
+      const participation = document.getElementById('participation').value;
+
+      const totalScore = (responseTime * 0.4) + (quality * 0.3) + (accuracy * 0.2) + (participation * 0.1);
+
+      const tableRow = `<tr>
+        <td>${unit}</td>
+        <td>${responseTime}%</td>
+        <td>${quality}%</td>
+        <td>${accuracy}%</td>
+        <td>${participation}%</td>
+        <td>${totalScore}</td>
+      </tr>`;
+
+      document.getElementById('performance-report').innerHTML += tableRow;
+
+      document.getElementById('performance-form').reset();
+    });
+  </script>
+</body>
+</html>
