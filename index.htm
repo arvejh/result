@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سیستم جزا و پاداش ECTS</title>
+  <title>ارزیابی</title>
   <style>
+    /* CSS برای طراحی */
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
       margin: 0;
       padding: 20px;
+      direction: rtl; /* راست‌چین کردن تمام صفحه */
+      text-align: right; /* راست‌چین کردن متن‌ها */
     }
 
     header {
@@ -17,10 +20,6 @@
       background-color: #4CAF50;
       color: white;
       padding: 10px 0;
-    }
-
-    h1 {
-      margin: 0;
     }
 
     .container {
@@ -83,7 +82,7 @@
 </head>
 <body>
   <header>
-    <h1>سیستم جزا و پاداش برای همکاری در ECTS</h1>
+    <h1>سیستم ارزیابی عملکرد پیگیری‌های ویژه</h1>
   </header>
 
   <div class="container">
@@ -99,11 +98,8 @@
         <label for="quality">کیفیت پاسخ (درصد بدون نیاز به بازنگری):</label>
         <input type="number" id="quality" name="quality" min="0" max="100" required>
 
-        <label for="accuracy">دقت در ارجاع (درصد):</label>
+        <label for="accuracy">دقت در ارجاع:</label>
         <input type="number" id="accuracy" name="accuracy" min="0" max="100" required>
-
-        <label for="participation">مشارکت در سیستم (درصد ثبت درست مکاتبات):</label>
-        <input type="number" id="participation" name="participation" min="0" max="100" required>
 
         <button type="submit">ثبت</button>
       </form>
@@ -118,7 +114,6 @@
             <th>پاسخ‌دهی در مهلت</th>
             <th>کیفیت پاسخ</th>
             <th>دقت ارجاع</th>
-            <th>مشارکت</th>
             <th>امتیاز کل</th>
           </tr>
         </thead>
@@ -137,16 +132,34 @@
       const responseTime = document.getElementById('response-time').value;
       const quality = document.getElementById('quality').value;
       const accuracy = document.getElementById('accuracy').value;
-      const participation = document.getElementById('participation').value;
 
-      const totalScore = (responseTime * 0.4) + (quality * 0.3) + (accuracy * 0.2) + (participation * 0.1);
+      const totalScore = (responseTime * 0.4) + (quality * 0.3) + (accuracy * 0.2);
+
+      const data = new FormData();
+      data.append('unit', unit);
+      data.append('response_time', responseTime);
+      data.append('quality', quality);
+      data.append('accuracy', accuracy);
+      data.append('total_score', totalScore);
+
+      fetch('save_performance.php', {  // ارسال به فایل PHP
+        method: 'POST',
+        body: data
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('داده‌ها با موفقیت ذخیره شدند');
+        } else {
+          alert('خطا در ذخیره داده‌ها');
+        }
+      });
 
       const tableRow = `<tr>
         <td>${unit}</td>
         <td>${responseTime}%</td>
         <td>${quality}%</td>
         <td>${accuracy}%</td>
-        <td>${participation}%</td>
         <td>${totalScore}</td>
       </tr>`;
 
