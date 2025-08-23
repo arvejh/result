@@ -39,6 +39,12 @@
       margin: 10px 0 5px;
     }
 
+    .required-field::after {
+      content: "*";
+      color: red;
+      margin-left: 5px;
+    }
+
     input, select {
       width: 100%;
       padding: 10px;
@@ -89,16 +95,16 @@
     <div class="form-section">
       <h2>ثبت داده‌های عملکرد واحد</h2>
       <form id="performance-form">
-        <label for="unit">نام واحد:</label>
+        <label for="unit" class="required-field">نام واحد:</label>
         <input type="text" id="unit" name="unit" required>
 
-        <label for="response-time">درصد پاسخ‌دهی در مهلت:</label>
+        <label for="response-time" class="required-field">درصد پاسخ‌دهی در مهلت:</label>
         <input type="number" id="response-time" name="response-time" min="0" max="100" required>
 
-        <label for="quality">کیفیت پاسخ (درصد بدون نیاز به بازنگری):</label>
+        <label for="quality" class="required-field">کیفیت پاسخ (درصد بدون نیاز به بازنگری):</label>
         <input type="number" id="quality" name="quality" min="0" max="100" required>
 
-        <label for="accuracy">دقت در ارجاع:</label>
+        <label for="accuracy" class="required-field">درصد دقت در ارجاع:</label>
         <input type="number" id="accuracy" name="accuracy" min="0" max="100" required>
 
         <button type="submit">ثبت</button>
