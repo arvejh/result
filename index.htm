@@ -4,10 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ارزیابی</title>
+
+  <!-- بارگذاری فونت‌ها -->
+  <link href="https://fonts.googleapis.com/css2?family=B+Zar:wght@400;700&display=swap" rel="stylesheet">
+  
   <style>
-    /* CSS برای طراحی */
+    /* بارگذاری فونت محلی */
+    @font-face {
+      font-family: 'B Zar';
+      src: url('fonts/Bzar-Regular.ttf') format('truetype');
+      font-weight: normal;
+    }
+
+    @font-face {
+      font-family: 'B Zar';
+      src: url('fonts/Bzar-Bold.ttf') format('truetype');
+      font-weight: bold;
+    }
+
+    /* طراحی صفحه */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'B Zar', sans-serif;
       background-color: #f4f4f4;
       margin: 0;
       padding: 20px;
@@ -37,6 +54,9 @@
     label {
       display: block;
       margin: 10px 0 5px;
+      font-family: 'B Zar', sans-serif;
+      font-weight: bold; /* درشت کردن متن */
+      font-size: 18px;   /* بزرگ‌تر کردن اندازه فونت */
     }
 
     .required-field::after {
@@ -54,12 +74,15 @@
     }
 
     button {
-      padding: 10px 20px;
+      padding: 15px 20px; /* افزایش ارتفاع دکمه برای راحتی کلیک */
       background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-family: 'B Zar', sans-serif;
+      font-weight: bold; /* برای درشت‌تر کردن کلمه */
+      font-size: 20px; /* افزایش اندازه فونت */
     }
 
     button:hover {
