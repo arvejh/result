@@ -3,13 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سیستم جزا و پاداش ECTS</title>
+  <title>ارزیابی</title>
+
+  <!-- بارگذاری فونت‌ها -->
+  <link href="https://fonts.googleapis.com/css2?family=B+Zar:wght@400;700&display=swap" rel="stylesheet">
+  
   <style>
+    /* بارگذاری فونت محلی */
+    @font-face {
+      font-family: 'B Zar';
+      src: url('fonts/Bzar-Regular.ttf') format('truetype');
+      font-weight: normal;
+    }
+
+    @font-face {
+      font-family: 'B Zar';
+      src: url('fonts/Bzar-Bold.ttf') format('truetype');
+      font-weight: bold;
+    }
+
+    /* طراحی صفحه */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'B Zar', sans-serif;
       background-color: #f4f4f4;
       margin: 0;
       padding: 20px;
+      direction: rtl; /* راست‌چین کردن تمام صفحه */
+      text-align: right; /* راست‌چین کردن متن‌ها */
     }
 
     header {
@@ -17,10 +37,6 @@
       background-color: #4CAF50;
       color: white;
       padding: 10px 0;
-    }
-
-    h1 {
-      margin: 0;
     }
 
     .container {
@@ -38,6 +54,15 @@
     label {
       display: block;
       margin: 10px 0 5px;
+      font-family: 'B Zar', sans-serif;
+      font-weight: bold; /* درشت کردن متن */
+      font-size: 18px;   /* بزرگ‌تر کردن اندازه فونت */
+    }
+
+    .required-field::after {
+      content: "*";
+      color: red;
+      margin-left: 5px;
     }
 
     input, select {
@@ -49,12 +74,15 @@
     }
 
     button {
-      padding: 10px 20px;
+      padding: 15px 20px; /* افزایش ارتفاع دکمه برای راحتی کلیک */
       background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-family: 'B Zar', sans-serif;
+      font-weight: bold; /* برای درشت‌تر کردن کلمه */
+      font-size: 20px; /* افزایش اندازه فونت */
     }
 
     button:hover {
@@ -83,24 +111,24 @@
 </head>
 <body>
   <header>
-    <h1>سیستم جزا و پاداش برای همکاری در ECTS</h1>
+    <h1>سیستم ارزیابی عملکرد پیگیری‌های ویژه</h1>
   </header>
 
   <div class="container">
     <div class="form-section">
       <h2>ثبت داده‌های عملکرد واحد</h2>
       <form id="performance-form">
-        <label for="unit">نام واحد:</label>
+        <label for="unit" class="required-field">نام واحد:</label>
         <input type="text" id="unit" name="unit" required>
 
-        <label for="response-time">درصد پاسخ‌دهی در مهلت:</label>
+        <label for="response-time" class="required-field">درصد پاسخ‌دهی در مهلت:</label>
         <input type="number" id="response-time" name="response-time" min="0" max="100" required>
 
-        <label for="quality">کیفیت پاسخ (درصد بدون نیاز به بازنگری):</label>
+        <label for="quality" class="required-field">کیفیت پاسخ (درصد بدون نیاز به بازنگری):</label>
         <input type="number" id="quality" name="quality" min="0" max="100" required>
 
-            <label for="participation">مشارکت در سیستم (درصد ثبت درست مکاتبات):</label>
-        <input type="number" id="participation" name="participation" min="0" max="100" required>
+        <label for="accuracy" class="required-field">درصد دقت در ارجاع:</label>
+        <input type="number" id="accuracy" name="accuracy" min="0" max="100" required>
 
         <button type="submit">ثبت</button>
       </form>
@@ -115,7 +143,7 @@
             <th>پاسخ‌دهی در مهلت</th>
             <th>کیفیت پاسخ</th>
             <th>دقت ارجاع</th>
-                     <th>امتیاز کل</th>
+            <th>امتیاز کل</th>
           </tr>
         </thead>
         <tbody id="performance-report">
@@ -132,16 +160,35 @@
       const unit = document.getElementById('unit').value;
       const responseTime = document.getElementById('response-time').value;
       const quality = document.getElementById('quality').value;
-      const participation = document.getElementById('participation').value;
+      const accuracy = document.getElementById('accuracy').value;
 
-      const totalScore = (responseTime * 0.5) + (quality * 0.4) + (participation * 0.1);
+      const totalScore = (responseTime * 0.4) + (quality * 0.3) + (accuracy * 0.2);
+
+      const data = new FormData();
+      data.append('unit', unit);
+      data.append('response_time', responseTime);
+      data.append('quality', quality);
+      data.append('accuracy', accuracy);
+      data.append('total_score', totalScore);
+
+      fetch('save_performance.php', {  // ارسال به فایل PHP
+        method: 'POST',
+        body: data
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('داده‌ها با موفقیت ذخیره شدند');
+        } else {
+          alert('خطا در ذخیره داده‌ها');
+        }
+      });
 
       const tableRow = `<tr>
         <td>${unit}</td>
         <td>${responseTime}%</td>
         <td>${quality}%</td>
         <td>${accuracy}%</td>
-        <td>${participation}%</td>
         <td>${totalScore}</td>
       </tr>`;
 
@@ -152,5 +199,3 @@
   </script>
 </body>
 </html>
-
-
