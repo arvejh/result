@@ -127,9 +127,6 @@
         <label for="quality" class="required-field">کیفیت پاسخ (درصد بدون نیاز به بازنگری):</label>
         <input type="number" id="quality" name="quality" min="0" max="100" required>
 
-        <label for="accuracy" class="required-field">درصد دقت در ارجاع:</label>
-        <input type="number" id="accuracy" name="accuracy" min="0" max="100" required>
-
         <button type="submit">ثبت</button>
       </form>
     </div>
@@ -142,7 +139,6 @@
             <th>نام واحد</th>
             <th>پاسخ‌دهی در مهلت</th>
             <th>کیفیت پاسخ</th>
-            <th>دقت ارجاع</th>
             <th>امتیاز کل</th>
           </tr>
         </thead>
@@ -162,7 +158,7 @@
       const quality = document.getElementById('quality').value;
       const accuracy = document.getElementById('accuracy').value;
 
-      const totalScore = (responseTime * 0.4) + (quality * 0.3) + (accuracy * 0.2);
+      const totalScore = (responseTime * 0.6) + (quality * 0.4);
 
       const data = new FormData();
       data.append('unit', unit);
@@ -199,3 +195,4 @@
   </script>
 </body>
 </html>
+
